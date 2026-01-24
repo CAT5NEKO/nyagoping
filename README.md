@@ -62,7 +62,6 @@ nyagoping -g image.png -o myart.txt     # 画像からAA生成
 | オプション | 短縮 | 説明 | デフォルト |
 |-----------|------|------|-----------|
 | --ascii-art | -a | AAファイルパス | .env |
-
 | --generate | -g | 画像からAA生成 | - |
 | --output | -o | AA出力先 | .env |
 | --width | -w | AA幅 | 80 |
