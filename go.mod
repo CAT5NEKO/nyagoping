@@ -1,4 +1,4 @@
-module nemuPing
+module nyagoPing
 
 go 1.21
 

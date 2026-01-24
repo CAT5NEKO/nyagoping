@@ -1,48 +1,69 @@
-## NemuPing
-ねむだる豆腐でPingを行う狂気のツールです。  
-[SheeplaさんのPingソフト](https://github.com/sheepla/pingu)の実装方法を参考に通信の勉強を目的に作りました。
+# nyagoping
 
-## 使い方
-1.リポジトリをクローンします。  
-2.`go build`でビルド  
-3.`nemuPing 192.XXX.X.XXX`のように実行します。  
+nyagoのpingツール  
+Ping時に画像を表示する機能はPinguと変わりませんが、  
+画像からAAに変換してそれをPing時に表示する機能など、僕が使いたい機能などを詰め込んで一から書いてみました。
 
-## オプション
-```shell
-nemuPing -c 4 192.XXX.X.XXX //指定回数のPingを行います(表示回数はint型で指定します)  
-nemuPing -v //バージョンを表示します
-nemuPing -p //管理者権限で実行します
+## インストール
+
+
+```bash
+git clone https://github.com/CAT5NEKO/nyagoping.git
+cd nyagoping
+go mod tidy
+go build -o bin/nyagoping ./cmd/nyagoping
+
 ```
 
-### 参考資料
+# Makefileを使っていい感じにビルド
+
+```bash
+make build #単体
+
+make cross-build # 全プラットフォーム
+
+make build-windows   # Windows 64bit + 32bit
+make build-linux     # Linux 64bit + 32bit
+make build-mac       # macOS Intel + Apple Silicon
 ```
-Copyright (c) 2022 sheepla
-https://github.com/sheepla/pingu  閲覧日10/31/23
-Copyright 2022 The Prometheus Authors
-Copyright 2016 Cameron Sparr and contributors.
-https://github.com/prometheus-community/pro-bing　　閲覧日10/31/23 
+
+
+### Makefileなんてねぇよという方はbuild.goでも似たようなこと実行できます
+
+```bash
+go run main.go help # コマンドでやれることはここに記載しています
+go run build.go cross-build
+go run build.go build-windows
 ```
 
-## 変更履歴
+## くいっくすたぁと
 
-### 2023/10/31 V1.0
-初版リリース  
-このバージョンでは、アスキーアートは固定されていました。  
-また、引数として表示数を明示しないとエラーを起こす問題を抱えていました。  
+```bash
+nyagoping example.tld
+nyagoping -c 5 example.tld               # 固定5回
+nyagoping -a myart.txt example.tld       # カスタムAAを使用
+nyagoping -g image.png -o myart.txt     # 画像からAA生成
+```
 
-![image](https://github.com/CAT5NEKO/nemuping/assets/111590457/f7724159-3ee5-41ad-96d9-2bb1e217240b)
+## コマンドラインオプション
+
+### PINGする場合
+
+| オプション | 短縮 | 説明 | デフォルト |
+|-----------|------|------|-----------|
+| --count | -c | Ping送信回数 | 10 |
+| --privileged | -p | 特権モード | false |
+| --version | -v | バージョン表示 | - |
+
+### カスタムAA使ってPINGする場合
+カスタム画像の調整などはAAディレクトリ内部をご確認ください。
+
+| オプション | 短縮 | 説明 | デフォルト |
+|-----------|------|------|-----------|
+| --ascii-art | -a | AAファイルパス | .env |
+
+| --generate | -g | 画像からAA生成 | - |
+| --output | -o | AA出力先 | .env |
+| --width | -w | AA幅 | 80 |
 
 
-### 2024/04/04 V2.0
-`.env`ファイルから自分のお好きなアスキーアートでPingを行うことができるようになりました。
-
-![image](https://github.com/CAT5NEKO/nemuping/assets/111590457/d98df370-119e-4735-820c-48c2286081ff)
-
-
-[設定方法]
-
-1. `.env`ファイルを書き換え。`main.go`のコメントされている項目をAAの行数に応じて変更してください。
-2. `go build`で再度ビルド
-3. `nemuPing`を実行
-
-※アスキーアートは横の長さが揃っているのものを用意してください。

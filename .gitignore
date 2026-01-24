@@ -1,2 +1,8 @@
-.idea
-/.idea/
+## エディター系
+.idea/
+.vscode/
+
+## テスト、ビルド成果物、環境変数系
+coverage/
+.env
+bin/ 
