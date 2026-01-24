@@ -15,11 +15,9 @@ import (
 )
 
 func TestGenerateASCIIArtUseCase_Integration(t *testing.T) {
-	// セットアップ
 	tmpDir := t.TempDir()
 	outputPath := filepath.Join(tmpDir, "generated_art.txt")
 
-	// テスト用の画像を作成
 	testImagePath := filepath.Join(tmpDir, "test_image.png")
 	img := image.NewGray(image.Rect(0, 0, 100, 100))
 	for y := 0; y < 100; y++ {
@@ -35,7 +33,6 @@ func TestGenerateASCIIArtUseCase_Integration(t *testing.T) {
 	generator := service.NewASCIIArtGenerator()
 	uc := usecase.NewGenerateASCIIArtUseCase(repo, generator)
 
-	// テスト実行
 	input := &usecase.GenerateInput{
 		ImagePath:  testImagePath,
 		OutputPath: outputPath,
@@ -47,7 +44,6 @@ func TestGenerateASCIIArtUseCase_Integration(t *testing.T) {
 		t.Fatalf("Execute() error = %v", err)
 	}
 
-	// 検証
 	if len(output.Arts) == 0 {
 		t.Error("アスキーアートが生成されませんでした")
 	}
@@ -56,12 +52,10 @@ func TestGenerateASCIIArtUseCase_Integration(t *testing.T) {
 		t.Error("生成されたアスキーアートが空です")
 	}
 
-	// ファイルが作成されているか確認
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		t.Error("生成されたファイルが存在しません")
 	}
 
-	// ファイルから読み込んで内容を確認
 	loadedArt, err := repo.Load(outputPath)
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
@@ -73,18 +67,16 @@ func TestGenerateASCIIArtUseCase_Integration(t *testing.T) {
 }
 
 func TestPingUseCase_AutoCount_Integration(t *testing.T) {
-	// セットアップ
 	tmpDir := t.TempDir()
 	artPath := filepath.Join(tmpDir, "test_art.txt")
 
-	// テスト用のアスキーアートを作成
 	lines := []string{
 		"line1",
 		"line2",
 		"line3",
 	}
 	art, _ := model.NewASCIIArt(lines)
-	
+
 	repo := persistence.NewFileASCIIArtRepository()
 	if err := repo.Save(artPath, art); err != nil {
 		t.Fatalf("Save() error = %v", err)
@@ -92,7 +84,6 @@ func TestPingUseCase_AutoCount_Integration(t *testing.T) {
 
 	generator := service.NewASCIIArtGenerator()
 
-	// AAの行数が3なので、最適なカウントは3になるはず
 	expectedCount := generator.CalculateOptimalCount(art)
 	if expectedCount != 3 {
 		t.Errorf("CalculateOptimalCount() = %v, want 3", expectedCount)
