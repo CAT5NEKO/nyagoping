@@ -6,6 +6,7 @@ import (
 	"nyagoPing/internal/application/usecase"
 	"nyagoPing/internal/domain/model"
 	"os"
+	"path/filepath"
 
 	"github.com/jessevdk/go-flags"
 )
@@ -95,8 +96,16 @@ func (c *CLI) run(cliArgs []string) (exitCode, error) {
 }
 
 func (c *CLI) handleGenerate(opts *Options) (exitCode, error) {
+	outputPath := opts.GenerateOutput
+	if outputPath == ".env" {
+		execPath, err := os.Executable()
+		if err == nil {
+			outputPath = filepath.Join(filepath.Dir(execPath), ".env")
+		}
+	}
+
 	input := &usecase.GenerateInput{
-		OutputPath: opts.GenerateOutput,
+		OutputPath: outputPath,
 		Width:      opts.GenerateWidth,
 	}
 
@@ -129,7 +138,7 @@ func (c *CLI) handleGenerate(opts *Options) (exitCode, error) {
 			fmt.Printf("\n他 %d 個の画像も変換されました。\n", len(output.Arts)-1)
 		}
 
-		fmt.Printf("\n保存先: %s\n", opts.GenerateOutput)
+		fmt.Printf("\n保存先: %s\n", outputPath)
 	}
 
 	return ExitCodeOK, nil
@@ -139,11 +148,19 @@ func (c *CLI) handlePing(opts *Options, host string) (exitCode, error) {
 	count := opts.Count
 	autoCount := count == 0
 
+	asciiArtPath := opts.ASCIIArtPath
+	if asciiArtPath == ".env" {
+		execPath, err := os.Executable()
+		if err == nil {
+			asciiArtPath = filepath.Join(filepath.Dir(execPath), ".env")
+		}
+	}
+
 	input := &usecase.PingInput{
 		Host:           host,
 		Count:          count,
 		Privileged:     opts.Privilege,
-		ASCIIArtPath:   opts.ASCIIArtPath,
+		ASCIIArtPath:   asciiArtPath,
 		AutoCountByArt: autoCount,
 	}
 
