@@ -1,5 +1,9 @@
 # nyagoping
 
+
+<img width="1535" height="1454" alt="{2F8FAF76-68CC-40FD-AAFF-0118AFDCE45C}" src="https://github.com/user-attachments/assets/c217740e-7b7f-44b4-ad3a-a684896895df" />
+
+
 nyagoのpingツール  
 Ping時に画像を表示する機能はPinguと変わりませんが、  
 画像からAAに変換してそれをPing時に表示する機能など、
