@@ -59,13 +59,13 @@ nyagoping -g image.png -o myart.txt     # 画像からAA生成
 | --count | -c | Ping送信回数 | 10 |
 | --privileged | -p | 特権モード | false |
 | --version | -v | バージョン表示 | - |
+| --ascii-art | -a | AAファイルパス | .env |
 
 ### カスタムAA使ってPINGする場合
 カスタム画像の調整などはAAディレクトリ内部をご確認ください。
 
 | オプション | 短縮 | 説明 | デフォルト |
 |-----------|------|------|-----------|
-| --ascii-art | -a | AAファイルパス | .env |
 | --generate | -g | 画像からAA生成 | - |
 | --output | -o | AA出力先 | .env |
 | --width | -w | AA幅 | 80 |
